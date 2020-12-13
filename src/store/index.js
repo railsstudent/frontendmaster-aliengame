@@ -57,7 +57,7 @@ export default new Vuex.Store({
       state.uiState = uistate;
     },
     pickQuestion(state, character) {
-      if (state.questionIndex < state.questions.length) {
+      if (state.questionIndex + 1 < state.questions.length) {
         state.score =
           state.score + (character === state.character ? 1 : -1) * 13;
         state.questionIndex = state.questionIndex + 1;
@@ -68,6 +68,12 @@ export default new Vuex.Store({
           state.uiState = "lost";
         }
       }
+    },
+    resetToPlay(state) {
+      state.uiState = "start";
+      state.character = "";
+      state.questionIndex = 0;
+      state.score = 0;
     }
   },
   actions: {},

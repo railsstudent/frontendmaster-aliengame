@@ -18,6 +18,8 @@
       </p>
       <button @click="pickACharacter">Pick character</button>
     </GamestateStart>
+    <GamestateFinish v-else-if="uiState === 'won' || uiState === 'lost'">
+    </GamestateFinish>
     <section v-else>
       <svg viewBox="0 -180 1628 1180" class="main">
         <defs>
@@ -88,7 +90,7 @@
       </div>
 
       <div class="zombietalk">
-        <p v-for="character in shuffle(characterChoices)" :key="character">
+        <p v-for="character in shuffle([...characterChoices])" :key="character">
           <button @click="pickQuestion(character)">
             {{ currentQuestion[character] }}
           </button>
@@ -101,6 +103,7 @@
 <script>
 import { mapMutations, mapState } from "vuex";
 import GamestateStart from "@/components/GamestateStart.vue";
+import GamestateFinish from "@/components/GamestateFinish.vue";
 import Artist from "@/components/Artist.vue";
 import Baker from "@/components/Baker.vue";
 import Friend from "@/components/Friend.vue";
@@ -115,7 +118,8 @@ export default {
     Baker,
     Friend,
     Mechanic,
-    Score
+    Score,
+    GamestateFinish
     // Zombie
   },
   data() {
