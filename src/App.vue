@@ -84,13 +84,13 @@
       </svg>
 
       <div class="friendtalk">
-        <h3>{{ questions[questionIndex].question }}</h3>
+        <h3>{{ currentQuestion.question }}</h3>
       </div>
 
       <div class="zombietalk">
         <p v-for="character in shuffle(characterChoices)" :key="character">
           <button @click="pickQuestion(character)">
-            {{ questions[questionIndex][character] }}
+            {{ currentQuestion[character] }}
           </button>
         </p>
       </div>
@@ -130,7 +130,10 @@ export default {
       "characterChoices",
       "character",
       "questionIndex"
-    ])
+    ]),
+    currentQuestion() {
+      return this.questions[this.questionIndex];
+    }
   },
   methods: {
     ...mapMutations(["pickCharacter", "updateUIState", "pickQuestion"]),
@@ -140,10 +143,10 @@ export default {
     },
     shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[array[i], array[j]] = [array[j], array[i]]
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
       }
-      return array
+      return array;
     }
   }
 };
