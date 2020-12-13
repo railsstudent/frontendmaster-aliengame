@@ -3,9 +3,15 @@
     <GamestateStart v-if="uiState === 'start'">
       <p>Which hoomen do you want to be?</p>
       <p v-for="option in characterChoices" :key="option">
-        <input :id="option" :value="option" type="radio" v-model="characterinput" />
+        <input
+          :id="option"
+          :value="option"
+          type="radio"
+          v-model="characterinput"
+        />
         <label :for="option">{{ option }}</label>
       </p>
+      <button @click="pickACharacter">Pick character</button>
     </GamestateStart>
     <section v-else>
       <svg viewBox="0 -180 1628 1180" class="main">
@@ -29,6 +35,10 @@
             />
           </clipPath>
         </defs>
+
+        <Friend />
+        <Score />
+        <component :is="character"></component>
 
         <text
           x="1000"
@@ -72,20 +82,39 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import GamestateStart from "@/components/GamestateStart.vue"
+import { mapMutations, mapState } from "vuex";
+import GamestateStart from "@/components/GamestateStart.vue";
+import Artist from "@/components/Artist.vue";
+import Baker from "@/components/Baker.vue";
+import Friend from "@/components/Friend.vue";
+import Mechanic from "@/components/Mechanic.vue";
+import Score from "@/components/Score.vue";
+// import Zombie from '@/components/Zombie.vue'
 export default {
   name: "App",
   components: {
-    GamestateStart
+    GamestateStart,
+    Artist,
+    Baker,
+    Friend,
+    Mechanic,
+    Score
+    // Zombie
   },
   data() {
     return {
-      characterinput: ''
-    }
+      characterinput: ""
+    };
   },
   computed: {
     ...mapState(["uiState", "questions", "characterChoices", "character"])
+  },
+  methods: {
+    ...mapMutations(["pickCharacter", "updateUIState"]),
+    pickACharacter() {
+      this.pickCharacter(this.characterinput);
+      this.updateUIState("characterChosen");
+    }
   }
 };
 </script>
@@ -102,7 +131,7 @@ body {
   position: relative;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
+  overflow: scroll;
   background-size: cover !important;
   background: url("./assets/background.svg") no-repeat center center scroll,
     #29abe2;
