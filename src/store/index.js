@@ -9,6 +9,7 @@ export default new Vuex.Store({
     characterChoices: ["baker", "mechanic", "artist"],
     character: "",
     questionIndex: 0,
+    score: 0,
     questions: [
       {
         question: `What's your dog's name?`,
@@ -54,6 +55,12 @@ export default new Vuex.Store({
     },
     updateUIState(state, uistate) {
       state.uiState = uistate;
+    },
+    pickQuestion(state, character) {
+      state.score = state.score + (character === state.character ? 1 : -1) * 13;
+      if (state.questionIndex < state.questions.length) {
+        state.questionIndex = state.questionIndex + 1;
+      }
     }
   },
   actions: {},

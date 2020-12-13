@@ -133,13 +133,10 @@ export default {
     ])
   },
   methods: {
-    ...mapMutations(["pickCharacter", "updateUIState"]),
+    ...mapMutations(["pickCharacter", "updateUIState", "pickQuestion"]),
     pickACharacter() {
       this.pickCharacter(this.characterinput);
       this.updateUIState("characterChosen");
-    },
-    pickQuestion(character) {
-      console.log("pickQuestion ->", character);
     }
   }
 };
