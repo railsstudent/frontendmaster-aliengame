@@ -51,7 +51,7 @@
           style="font: normal 45px 'Recursive; text-transform: uppercase;"
           class="text"
         >
-          Character Name
+          {{ character }}
         </text>
 
         <path fill="#f0959f" d="M0 842h657v192H0z" />
@@ -88,7 +88,7 @@
       </div>
 
       <div class="zombietalk">
-        <p v-for="character in characterChoices" :key="character">
+        <p v-for="character in shuffle(characterChoices)" :key="character">
           <button @click="pickQuestion(character)">
             {{ questions[questionIndex][character] }}
           </button>
@@ -137,6 +137,13 @@ export default {
     pickACharacter() {
       this.pickCharacter(this.characterinput);
       this.updateUIState("characterChosen");
+    },
+    shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+      }
+      return array
     }
   }
 };
