@@ -2,7 +2,11 @@
   <div id="app">
     <GamestateStart v-if="uiState === 'start'">
       <p>Which hoomen do you want to be?</p>
-      <p v-for="option in characterChoices" :key="option">
+      <p
+        v-for="option in characterChoices"
+        :key="option"
+        class="character-choices"
+      >
         <input
           :id="option"
           :value="option"
@@ -10,6 +14,7 @@
           v-model="characterinput"
         />
         <label :for="option">{{ option }}</label>
+        <br />
       </p>
       <button @click="pickACharacter">Pick character</button>
     </GamestateStart>
@@ -77,6 +82,18 @@
           />
         </g>
       </svg>
+
+      <div class="friendtalk">
+        <h3>{{ questions[questionIndex].question }}</h3>
+      </div>
+
+      <div class="zombietalk">
+        <p v-for="character in characterChoices" :key="character">
+          <button @click="pickQuestion(character)">
+            {{ questions[questionIndex][character] }}
+          </button>
+        </p>
+      </div>
     </section>
   </div>
 </template>
@@ -107,13 +124,22 @@ export default {
     };
   },
   computed: {
-    ...mapState(["uiState", "questions", "characterChoices", "character"])
+    ...mapState([
+      "uiState",
+      "questions",
+      "characterChoices",
+      "character",
+      "questionIndex"
+    ])
   },
   methods: {
     ...mapMutations(["pickCharacter", "updateUIState"]),
     pickACharacter() {
       this.pickCharacter(this.characterinput);
       this.updateUIState("characterChosen");
+    },
+    pickQuestion(character) {
+      console.log("pickQuestion ->", character);
     }
   }
 };
@@ -179,7 +205,7 @@ svg.main,
   position: absolute;
   z-index: 1000;
   top: 300px;
-  left: 265px;
+  left: 305px;
   width: 200px;
 }
 
@@ -208,7 +234,7 @@ text {
   position: absolute;
   z-index: 1000;
   top: 445px;
-  left: 665px;
+  left: 705px;
   width: 200px;
   height: 200px;
   display: flex;
