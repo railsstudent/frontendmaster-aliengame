@@ -64,6 +64,24 @@
   </g>
 </template>
 
-<script></script>
+<script>
+import gsap from "gsap";
+import { mapState } from "vuex";
+export default {
+  name: "Score",
+  computed: {
+    ...mapState(["score"])
+  },
+  watch: {
+    score(newValue) {
+      gsap.to("#needle", {
+        duration: 0.3,
+        rotation: newValue,
+        transformOrigin: "50% 87%"
+      });
+    }
+  }
+};
+</script>
 
 <style lang="scss" scoped></style>
